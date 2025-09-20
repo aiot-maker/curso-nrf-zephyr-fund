@@ -13,8 +13,9 @@ LOG_MODULE_REGISTER(bmp180_beacon, LOG_LEVEL_INF);
 
 const struct device *bmp180 = DEVICE_DT_GET_ONE(bosch_bmp180);
 
-/* Manufacturer data: 0xFFFF ID + 2 bytes temperature */
-static uint8_t mfg_data[4] = { 0xFF, 0xFF, 0x00, 0x00 };
+#define SENSOR_TYPE 0x01
+/* Manufacturer data: 0xFFFF ID + tipo + 2 bytes temperature */
+static uint8_t mfg_data[5] = { 0xFF, 0xFF, SENSOR_TYPE, 0x00, 0x00 };
 
 static const struct bt_data ad[] = {
     BT_DATA_BYTES(BT_DATA_FLAGS, (BT_LE_AD_NO_BREDR | BT_LE_AD_GENERAL)),
@@ -46,7 +47,7 @@ static void sensor_work_handler(struct k_work *work)
     int32_t centi = temp.val1 * 100 + temp.val2 / 10000;
     int16_t t_centi = (int16_t)centi;
 
-    memcpy(&mfg_data[2], &t_centi, sizeof(t_centi));
+    memcpy(&mfg_data[3], &t_centi, sizeof(t_centi));
 
     LOG_HEXDUMP_INF(mfg_data, sizeof(mfg_data), "Manufacturer Data");
 
