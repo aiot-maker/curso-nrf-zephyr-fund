@@ -1,0 +1,11 @@
+{
+  "name": "Zephyr Dev",
+  "image": "ghcr.io/zephyrproject-rtos/ci-base:latest",
+  "features": {},
+  "postCreateCommand": "pip install west && west init && west update",
+  "customizations": {
+    "vscode": {
+      "extensions": ["ms-vscode.cpptools"]
+    }
+  }
+}
