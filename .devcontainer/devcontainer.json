@@ -1,11 +1,21 @@
 {
-  "name": "Zephyr Dev",
-  "image": "ghcr.io/zephyrproject-rtos/ci-base:latest",
-  "features": {},
-  "postCreateCommand": "pip install west && west init && west update",
+  "name": "nRF Connect SDK",
+  "image": "ghcr.io/nrfconnect/sdk-nrf:latest",
+  "remoteUser": "root",
+
   "customizations": {
     "vscode": {
-      "extensions": ["ms-vscode.cpptools"]
+      "extensions": [
+        "ms-vscode.cpptools",
+        "ms-vscode.cmake-tools",
+        "nordic-semiconductor.nrf-connect"
+      ]
     }
-  }
+  },
+
+  "containerEnv": {
+    "ZEPHYR_BASE": "/opt/nordic/ncs/zephyr"
+  },
+
+  "postCreateCommand": "west --version"
 }
